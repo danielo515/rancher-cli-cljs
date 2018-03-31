@@ -1,0 +1,7 @@
+; This file is for compiling with shadow-cljs
+{:source-paths ["src"]
+ :dependencies [[binaryage/oops "0.5.8"]]
+ :builds {:app {:target :node-script
+                :output-to "target/main.js"
+                :main rancher-cli.core/-main
+                :devtools {:after-load server.main/reload!}}}}

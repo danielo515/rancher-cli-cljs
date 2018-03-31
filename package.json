@@ -1,0 +1,32 @@
+{
+  "name": "rancher-cli-cljs",
+  "version": "1.0.0",
+  "description": "A clojurescript implementation of my rancher-cli API client",
+  "main": "target/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lumo -c src -m rancher-cli.core",
+    "repl": "shadow-cljs node-repl",
+    "watch": "shadow-cljs watch app"
+  },
+  "keywords": [
+    "clojurescript",
+    "shadow-cljs",
+    "rancher",
+    "cli"
+  ],
+  "author": "Danielo Rodríguez Rivero",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.85.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielo515/rancher-cli-cljs"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.2.21",
+    "source-map-support": "^0.5.4",
+    "ws": "^5.1.0"
+  }
+}

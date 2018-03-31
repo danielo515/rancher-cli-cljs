@@ -1,0 +1,5 @@
+.shadow-cljs
+out
+target
+node_modues
+.nrepl-port
