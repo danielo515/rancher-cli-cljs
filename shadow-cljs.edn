@@ -4,4 +4,4 @@
  :builds {:app {:target :node-script
                 :output-to "target/main.js"
                 :main rancher-cli.core/-main
-                :devtools {:after-load server.main/reload!}}}}
+                :devtools {:after-load rancher-cli.core/-main}}}}

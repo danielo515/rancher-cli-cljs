@@ -7,26 +7,38 @@
 
 (defn makeAuth [usr pass] #js{ :user usr :pass pass :sendImmediately false})
   
-(defn handler [ch] 
+(defn handler [ch msg] 
   (fn [err res body]
    (go 
       (if err 
-        (prn "Bad error" err) 
-        (>! ch body))
+        (js/console.error (str "Bad error during " msg) err)
+        (>! ch  body))
       (close! ch))))
 
-(defn Post [usr pass url payload] 
+(defn make-opts
+ ([usr pass url] (make-opts usr pass url nil))
+ ([usr pass url payload] 
+  (let [ opts (if (and usr pass)
+                  #js{:json true :auth (makeAuth usr pass)} 
+                  #js{:json true})]
+   (when payload (aset opts "body" payload))
+   opts)))
+
+
+(defn Post 
+ ([usr pass url] (Post usr pass url #js{}))
+ ([usr pass url payload] 
   (let [c (chan)
-        payload #js{:body payload :auth (makeAuth usr pass) :json true}]
-    ;(prn "Post payload" (js/JSON.stringify payload))
-    (req/post url payload (handler c))
-    c))
+        options (make-opts usr pass url payload)]
+    (prn "Posting to " url options)
+    (req/post url options (handler c (str "POST" url)))
+    c)))
 
 (defn Get 
   ([url] (Get nil nil url))
   ([usr pass url] 
-   (let [c (chan)]
-      (if (and usr pass) 
-          (req/get url #js{:json true :auth (makeAuth usr pass)} (handler c))
-          (req/get url (handler c))) 
-      c)))
+   (let [c (chan)
+         reqHandler (handler c "GET")
+         opts (make-opts usr pass url)]
+    (req/get url opts reqHandler)
+    c)))
