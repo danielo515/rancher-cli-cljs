@@ -30,7 +30,7 @@
  ([usr pass url payload] 
   (let [c (chan)
         options (make-opts usr pass url payload)]
-    (prn "Posting to " url options)
+    ;(prn "Posting to " url options)
     (req/post url options (handler c (str "POST" url)))
     c)))
 

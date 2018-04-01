@@ -3,3 +3,4 @@ out
 target
 node_modues
 .nrepl-port
+credentials.cljs
