@@ -19,6 +19,7 @@
   "author": "Danielo Rodríguez Rivero",
   "license": "MIT",
   "dependencies": {
+    "preferences": "^1.0.2",
     "request": "^2.85.0"
   },
   "repository": {

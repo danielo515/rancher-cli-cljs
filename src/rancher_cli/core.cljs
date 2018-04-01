@@ -3,20 +3,12 @@
     [cljs.nodejs :as nodejs]
     [rancher-cli.credentials :as cred]
     [cljs.core.async :as a :refer [go <! timeout go-loop]]
-    [goog.object :as ob :refer [get]]
-    [cljs.tools.cli :refer [parse-opts]]
+    [rancher-cli.config :as conf]
     [rancher-cli.request :as req]))
 
 (nodejs/enable-util-print!)
 
-(def options-spec
-  [
-    ["-h" "--help"]
-    ["-U" "--usr user" "Rancher username"]
-    ["-P" "--pass password" "Rancher password"]])
 
-(defn run [args]
-  (parse-opts args options-spec))
 
 (defn trace [msg data] (println msg data) data)
 
@@ -108,9 +100,10 @@
   convert 
   (findFirst (partial nameEquals name))))
 
-(defn -main [& args] 
+(defn -main [& args]
+    (prn "computed prefs" (conf/load-options args))
+    (js/console.dir (conf/save-options cred/user cred/pass cred/url))
     (println "========================================")
-    (println (run args))
     (go (some->> (<! (getStacks cred/url "int"))
             (findStack "api")
             :links :services
