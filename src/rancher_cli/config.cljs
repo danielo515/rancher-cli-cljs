@@ -8,6 +8,7 @@
     ["-h" "--help"]
     ["-U" "--user user" "Rancher username"]
     ["-P" "--pass password" "Rancher password"]])
+    ;["-S" nil "Save the provided values into the configuration"]]) 
     
 
 (defn run [args]
@@ -17,7 +18,9 @@
   (pref. "com.rancher-cli.cljs"
         #js { :rancher #js {:url nil :user nil :pass nil}}))
      
-(defn merge-into-js [js clj] (merge (js->clj js :keywordize-keys true) clj))
+(defn merge-into-js [js clj]
+  "Merges a clj object into a js object (clj has preference), returning a clj object."
+  (merge (js->clj js :keywordize-keys true) clj))
 
 (defn load-options [argv]
   "Load CMD options and merges them with the stored ones, giving preference to CMD ones"
