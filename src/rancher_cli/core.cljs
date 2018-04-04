@@ -7,13 +7,15 @@
     
 
 (defn -main [& args]
-  (let [{:keys [user pass url]} (conf/load-options args)]
-       (rancher/configure-client! user pass))
   (println "========================================")
-  (go (some->> 
-        (go-upgrade-services-with-image "docker:case/config-probes-microservice:2.25.0" "api")
-        (<!)
-        (trace "====================="))))
+  (let [{:keys [user pass url save] :as options} (conf/load-options args)]
+       (rancher/configure-client! user pass)
+       (if save 
+        (conf/save-options options)
+        (go (some->>
+              (go-upgrade-services-with-image "docker:case/config-probes-microservice:2.25.0" "api")
+              (<!)
+              (trace "====================="))))))
    
 (set! *main-cli-fn* -main)
    
