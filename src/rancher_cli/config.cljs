@@ -7,8 +7,8 @@
   [
     ["-h" "--help"]
     ["-U" "--user user" "Rancher username"]
-    ["-P" "--pass password" "Rancher password"]])
-    ;["-S" nil "Save the provided values into the configuration"]]) 
+    ["-P" "--pass password" "Rancher password"]
+    ["-S" "--save" "Save the provided values into the configuration"]]) 
     
 
 (defn run [args]

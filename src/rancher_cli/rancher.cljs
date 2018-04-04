@@ -18,7 +18,6 @@
 
 (defn Post [& args] (apply req/Post (concat @credentials args)))
 
-
 (defn findServicesWithImage [imageName services]
  (->> services
        convert
