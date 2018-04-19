@@ -10,10 +10,10 @@
   (println "========================================")
   (let [{:keys [user pass url save print-config] :as options} (conf/load-options args)]
        (rancher/configure-client! user pass)
-       (cond 
-        print-config (js/console.info conf/js-preferences)
-        save (conf/save-options options)
-        :else (go (some->>
+       (condp #(%2 %1) options
+        :print-config (js/console.info conf/js-preferences)
+        :save (conf/save-options options)
+        (go (some->>
                    (go-upgrade-services-with-image "docker:case/config-probes-microservice:2.25.0" "api")
                    (<!)
                    (trace "====================="))))))
